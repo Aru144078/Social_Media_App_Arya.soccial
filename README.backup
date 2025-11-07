@@ -1,0 +1,301 @@
+# Arya.social
+
+A full-stack social networking platform built with React, Node.js, and AWS deployment following senior developer best practices.
+
+## ✨ Features
+
+- **Secure Authentication** - JWT-based auth with bcrypt password hashing
+- **Post Management** - Create, edit, delete posts with rich content
+- **Image Upload** - Support for image uploads with file validation
+- **Social Features** - Like and comment on posts
+- **User Profiles** - Follow/unfollow users, view profiles
+- **Responsive Design** - Modern UI with Tailwind CSS
+-  **Real-time Updates** - Dynamic content loading
+-  **AWS Deployment** - Production-ready cloud infrastructure
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **React 18** with TypeScript for type safety
+- **Tailwind CSS** for modern styling
+- **React Router** for client-side routing
+- **React Hook Form** for form validation
+- **Axios** for API communication
+- **Lucide React** for beautiful icons
+- **React Hot Toast** for notifications
+
+### Backend
+- **Node.js** with Express.js framework
+- **Prisma ORM** with PostgreSQL database
+- **JWT** for secure authentication
+- **Multer** for file upload handling
+- **bcrypt** for password hashing
+- **Express Validator** for input validation
+- **Helmet** for security headers
+- **Morgan** for request logging
+
+### DevOps & Deployment
+- **Docker** for containerization
+- **AWS CloudFormation** for infrastructure as code
+- **AWS ECS** for container orchestration
+- **AWS RDS** for managed PostgreSQL
+- **AWS S3** for file storage
+- **AWS ALB** for load balancing
+- **GitHub Actions** ready for CI/CD
+
+## Quick Start
+
+### Prerequisites
+- Node.js 18+ 
+- PostgreSQL 15+
+- Git
+
+### Option 1: Automated Setup
+```bash
+# Clone and setup everything
+git clone <repository-url>
+cd Social_Media_App
+chmod +x setup.sh
+./setup.sh
+```
+
+### Option 2: Manual Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd Social_Media_App
+   ```
+
+2. **Backend Setup**
+   ```bash
+   cd backend
+   npm install
+   cp .env.example .env
+   # Edit .env with your database credentials
+   npx prisma migrate dev --name init
+   npx prisma generate
+   npm run db:seed  # Optional: Add demo data
+   ```
+
+3. **Frontend Setup**
+   ```bash
+   cd ../frontend
+   npm install
+   cp .env.example .env
+   # Edit .env if needed
+   ```
+
+4. **Start Development Servers**
+   ```bash
+   # Terminal 1 - Backend
+   cd backend && npm run dev
+
+   # Terminal 2 - Frontend  
+   cd frontend && npm start
+   ```
+
+5. **Access the Application**
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:5000
+   - API Docs: http://localhost:5000/health
+
+## Project Structure
+
+```
+Arya.social/
+├── backend/                    # Node.js API Server
+│   ├── src/
+│   │   ├── controllers/        # Business logic handlers
+│   │   ├── middleware/         # Custom middleware (auth, validation)
+│   │   ├── routes/             # API route definitions
+│   │   ├── services/           # External service integrations
+│   │   ├── utils/              # Helper functions
+│   │   ├── app.js              # Express app configuration
+│   │   └── server.js           # Server entry point
+│   ├── prisma/
+│   │   ├── schema.prisma       # Database schema
+│   │   ├── migrations/         # Database migrations
+│   │   └── seed.js             # Sample data seeder
+│   ├── uploads/                # File upload storage
+│   ├── Dockerfile              # Container configuration
+│   └── package.json
+├── frontend/                   # React Application
+│   ├── src/
+│   │   ├── components/         # Reusable UI components
+│   │   │   ├── ui/             # Base UI components
+│   │   │   ├── layout/         # Layout components
+│   │   │   └── posts/          # Post-related components
+│   │   ├── pages/              # Route page components
+│   │   ├── contexts/           # React contexts (Auth)
+│   │   ├── hooks/              # Custom React hooks
+│   │   ├── services/           # API service functions
+│   │   ├── utils/              # Utility functions
+│   │   ├── types/              # TypeScript type definitions
+│   │   └── index.tsx           # Application entry point
+│   ├── public/                 # Static assets
+│   ├── Dockerfile              # Container configuration
+│   └── package.json
+├── deployment/                 # AWS Infrastructure
+│   ├── aws-infrastructure.yml  # CloudFormation template
+│   ├── docker-compose.yml      # Local development
+│   └── deploy.sh               # Deployment script
+└── README.md
+```
+
+## Configuration
+
+### Environment Variables
+
+**Backend (.env)**
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/social_media_db"
+JWT_SECRET="your-super-secret-jwt-key"
+JWT_EXPIRES_IN="7d"
+PORT=5000
+NODE_ENV="development"
+FRONTEND_URL="http://localhost:3000"
+MAX_FILE_SIZE=5242880
+UPLOAD_PATH="./uploads"
+```
+
+**Frontend (.env)**
+```env
+REACT_APP_API_URL=http://localhost:5000/api
+REACT_APP_APP_NAME="Social Media App"
+```
+
+##  Database Schema
+
+The application uses PostgreSQL with Prisma ORM. Key entities:
+
+- **Users** - Authentication and profile data
+- **Posts** - User-generated content with images
+- **Comments** - Post discussions
+- **Likes** - Post engagement
+- **Follows** - User relationships
+
+##  Authentication & Security
+
+- **JWT Tokens** with secure secret rotation
+- **Password Hashing** using bcrypt with salt rounds
+- **Input Validation** with express-validator
+- **Rate Limiting** to prevent abuse
+- **CORS Configuration** for cross-origin requests
+- **Security Headers** via Helmet.js
+- **File Upload Validation** with type and size limits
+
+##  Deployment
+
+### Local Development with Docker
+```bash
+cd deployment
+docker-compose up --build
+```
+
+### AWS Production Deployment
+```bash
+cd deployment
+chmod +x deploy.sh
+./deploy.sh production
+```
+
+This creates:
+- VPC with public/private subnets
+- RDS PostgreSQL database
+- ECS cluster with Fargate
+- Application Load Balancer
+- S3 bucket for file storage
+- CloudFormation stack management
+
+## 📊 API Endpoints
+
+### Authentication
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+- `GET /api/auth/me` - Get current user
+- `PUT /api/auth/me` - Update profile
+
+### Posts
+- `GET /api/posts` - Get all posts (paginated)
+- `POST /api/posts` - Create new post
+- `GET /api/posts/:id` - Get single post
+- `PUT /api/posts/:id` - Update post
+- `DELETE /api/posts/:id` - Delete post
+- `POST /api/posts/:id/like` - Toggle like
+
+### Comments
+- `GET /api/posts/:id/comments` - Get post comments
+- `POST /api/posts/:id/comments` - Add comment
+- `DELETE /api/posts/comments/:id` - Delete comment
+
+### Users
+- `GET /api/users` - Get all users
+- `GET /api/users/:id` - Get user profile
+- `GET /api/users/:id/posts` - Get user posts
+- `POST /api/users/:id/follow` - Toggle follow
+
+##  Testing
+
+```bash
+# Backend tests
+cd backend && npm test
+
+# Frontend tests  
+cd frontend && npm test
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Development Guidelines
+- Follow TypeScript best practices
+- Use meaningful commit messages
+- Add tests for new features
+- Update documentation as needed
+- Follow the existing code style
+
+##  Demo Accounts
+
+After running the seed script:
+- **Email:** john@example.com **Password:** password123
+- **Email:** jane@example.com **Password:** password123
+
+
+**Database Connection Error**
+```bash
+# Check PostgreSQL is running
+brew services start postgresql  # macOS
+sudo service postgresql start   # Linux
+```
+
+**Port Already in Use**
+```bash
+# Kill process on port 5000
+lsof -ti:5000 | xargs kill -9
+```
+
+**Module Not Found Errors**
+```bash
+# Clear node_modules and reinstall
+rm -rf node_modules package-lock.json
+npm install
+```
+
+##  License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+##  Acknowledgments
+
+- React team for the amazing framework
+- Prisma for the excellent ORM
+- Tailwind CSS for beautiful styling
+- AWS for reliable cloud infrastructure
+
+---
