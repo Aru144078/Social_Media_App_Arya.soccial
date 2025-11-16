@@ -149,7 +149,7 @@ Arya.social/
 
 **Backend (.env)**
 ```env
-DATABASE_URL="postgresql://user:password@localhost:5432/social_media_db"
+DATABASE_URL="mongodb+srv://aru11752006_db_user:i54mFZMLX0CdwGvk@cluster0.vguzmwm.mongodb.net/social_media?retryWrites=true&w=majority"
 JWT_SECRET="your-super-secret-jwt-key"
 JWT_EXPIRES_IN="7d"
 PORT=5000

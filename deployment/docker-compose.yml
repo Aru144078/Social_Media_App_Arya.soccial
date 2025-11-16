@@ -23,7 +23,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=postgresql://postgres:password@postgres:5432/social_media_db
+      - DATABASE_URL=mongodb+srv://aru11752006_db_user:i54mFZMLX0CdwGvk@cluster0.vguzmwm.mongodb.net/social_media?retryWrites=true&w=majority
       - JWT_SECRET=your-production-jwt-secret-change-this
       - JWT_EXPIRES_IN=7d
       - PORT=5000
