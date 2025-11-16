@@ -62,6 +62,8 @@ app.get('/health', (req, res) => {
   });
 });
 
+app.set("trust proxy", 1);
+
 // API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
